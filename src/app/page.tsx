@@ -63,22 +63,44 @@ export default function Home() {
     setValue(el.title);
   };
 
+  const handleClick = () => {
+    let newTodo = {
+      id: nanoid(),
+      title: value,
+      status: false,
+    };
+
+    if (value) {
+      dispatch(addTodo(newTodo));
+      setValue("");
+    }
+  };
+
   return (
     <main className=" bg-main max-h-screen">
       <div className="max-w-xl mx-auto pt-10 px-4">
         <h1 className="sm:text-6xl text-3xl text-center font-semibold text-heading sm:mb-8 mb-5">
           Todos
         </h1>
-        <input
-          className={`w-full sm:text-2xl text-lg outline-none rounded p-4 pl-12 placeholder:opacity-20 ${
-            todos.length ? "shadow-initialShadow" : "shadow-inputShadow"
-          }`}
-          type="text"
-          placeholder="todos..."
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyUp={handleAddTodo}
-        />
+        <label className="relative h-max block">
+          <input
+            className={`w-full sm:text-2xl text-lg outline-none rounded p-4 pl-10 pr-16 placeholder:opacity-20 ${
+              todos.length ? "shadow-initialShadow" : "shadow-inputShadow"
+            }`}
+            type="text"
+            placeholder="todos..."
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyUp={handleAddTodo}
+          />
+          <button
+            className="absolute top-0 right-0 border-l border-borderLine px-3 bg-white rounded text-lg sm:text-xl h-full shadow-initialShadow text-slate-400 outline-none"
+            onClick={handleClick}
+          >
+            Add
+          </button>
+        </label>
+
         <ul className="flex flex-col bg-white">
           {todos.length > 0 &&
             todos.map((el) => (
